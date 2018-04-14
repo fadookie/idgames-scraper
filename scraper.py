@@ -102,7 +102,7 @@ for entry_id in range(start_id, end_id):
 
     download_url = ftp_server + entry['dir'] + entry['filename']
 
-    dl_folder_name ='{0:05d}'.format(entry_id)
+    dl_folder_name = '{0:05d}'.format(entry_id)
     try:
         os.makedirs(dl_folder_name)
     except Exception as e:
@@ -117,7 +117,7 @@ for entry_id in range(start_id, end_id):
 
         with open("entry.json", "w") as outfile:
             json.dump(data, outfile, indent=4)
-            print('dumped entry json to file.');
+            print('dumped entry json to file.')
 
         if open_browser:
             print('trying to open browser for url:'.format(entry['url']))
@@ -125,4 +125,3 @@ for entry_id in range(start_id, end_id):
 
         print('downloading {}...'.format(download_url))
         urllib.urlretrieve(download_url, entry['filename'])
-
