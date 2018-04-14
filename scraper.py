@@ -11,6 +11,12 @@ from contextlib import contextmanager
 ftp_server = 'http://ftp.mancubus.net/pub/idgames/'
 # ftp_server = 'http://ftp.mancubus.net/pub/idgames/historic/doom0_2.zip'
 
+# ID to start downloading from
+start_id = 9
+
+# ID to stop downloading at
+end_id = 40
+
 # Directories in /idgames to ignore - these are intepreted as regex
 dir_blacklist_src = [
     'deathmatch/.*',
@@ -79,7 +85,7 @@ except Exception:
     pass
 os.chdir(downloads_folder)
 
-for entry_id in range(9, 15):
+for entry_id in range(start_id, end_id):
     request_url = get_file(entry_id)
     # print('Sending request to "{}"'.format(request_url))
     response = urllib.urlopen(request_url)
@@ -92,7 +98,7 @@ for entry_id in range(9, 15):
         continue
 
     download_url = ftp_server + entry['dir'] + entry['filename']
-    print('got download_url:{} for file:\n{}'.format(download_url, entry))
+    # print('got download_url:{} for file:\n{}'.format(download_url, entry))
 
     try:
         os.makedirs(str(entry_id))
@@ -104,6 +110,7 @@ for entry_id in range(9, 15):
             print 'file "{}" already downloaded, skipping.'.format(
                 entry['filename'])
             continue
+        print('downloading {}...'.format(download_url))
         urllib.urlretrieve(download_url, entry['filename'])
 
     # time.sleep(1)  # Wait for a second to be nice to their API server
