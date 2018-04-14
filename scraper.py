@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 import json
 import urllib
-# import time
 import re
 import os
+import time
 import logging
 import webbrowser
 from contextlib import contextmanager
 
 # Set this to your nearest FTP mirror:
 ftp_server = 'http://ftp.mancubus.net/pub/idgames/'
-# ftp_server = 'http://ftp.mancubus.net/pub/idgames/historic/doom0_2.zip'
 
 # ID to start downloading from
 start_id = 9
@@ -102,7 +101,6 @@ for entry_id in range(start_id, end_id):
         continue
 
     download_url = ftp_server + entry['dir'] + entry['filename']
-    # print('got download_url:{} for file:\n{}'.format(download_url, entry))
 
     dl_folder_name ='{0:05d}'.format(entry_id)
     try:
@@ -114,6 +112,7 @@ for entry_id in range(start_id, end_id):
         if os.path.isfile(entry['filename']):
             print 'file "{}" already downloaded, skipping.'.format(
                 entry['filename'])
+            time.sleep(1)  # Wait for a second to be nice to their API server
             continue
 
         with open("entry.json", "w") as outfile:
@@ -127,4 +126,3 @@ for entry_id in range(start_id, end_id):
         print('downloading {}...'.format(download_url))
         urllib.urlretrieve(download_url, entry['filename'])
 
-    # time.sleep(1)  # Wait for a second to be nice to their API server
