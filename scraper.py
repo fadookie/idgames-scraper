@@ -5,6 +5,7 @@ import urllib
 import re
 import os
 import logging
+import webbrowser
 from contextlib import contextmanager
 
 # Set this to your nearest FTP mirror:
@@ -16,6 +17,9 @@ start_id = 9
 
 # ID to stop downloading at
 end_id = 25
+
+# Open idgames page for each downloaded file in a browser tab?
+open_browser = True
 
 # Directories in /idgames to ignore - these are intepreted as regex
 dir_blacklist_src = [
@@ -111,6 +115,15 @@ for entry_id in range(start_id, end_id):
             print 'file "{}" already downloaded, skipping.'.format(
                 entry['filename'])
             continue
+
+        with open("entry.json", "w") as outfile:
+            json.dump(data, outfile, indent=4)
+            print('dumped entry json to file.');
+
+        if open_browser:
+            print('trying to open browser for url:'.format(entry['url']))
+            webbrowser.open_new_tab(entry['url'])
+
         print('downloading {}...'.format(download_url))
         urllib.urlretrieve(download_url, entry['filename'])
 
