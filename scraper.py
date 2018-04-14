@@ -15,7 +15,7 @@ ftp_server = 'http://ftp.mancubus.net/pub/idgames/'
 start_id = 9
 
 # ID to stop downloading at
-end_id = 40
+end_id = 25
 
 # Directories in /idgames to ignore - these are intepreted as regex
 dir_blacklist_src = [
@@ -100,12 +100,13 @@ for entry_id in range(start_id, end_id):
     download_url = ftp_server + entry['dir'] + entry['filename']
     # print('got download_url:{} for file:\n{}'.format(download_url, entry))
 
+    dl_folder_name ='{0:05d}'.format(entry_id)
     try:
-        os.makedirs(str(entry_id))
+        os.makedirs(dl_folder_name)
     except Exception as e:
         logging.error(e)
 
-    with working_directory(str(entry_id)):
+    with working_directory(dl_folder_name):
         if os.path.isfile(entry['filename']):
             print 'file "{}" already downloaded, skipping.'.format(
                 entry['filename'])
